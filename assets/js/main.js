@@ -102,7 +102,7 @@ let opt = {
     margin :      0,
     filename :    'CVE-Jair_Obed_Rosario_Ponce.pdf',
     image :       { type: 'jpeg', quality: 0.98},
-    html2camvas : { sacale: 4},
+    html2camvas : { sacale: 3},
     jsPDF :       { format: 'a4', orientation: 'portrait'}   
 }
 
