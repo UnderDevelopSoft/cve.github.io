@@ -624,7 +624,7 @@ img {
 }
 
 .progress_line.Firebase span{
-  width: 40%;
+  width: 70%;
 }
 
 .progress_line.Net span{
@@ -640,6 +640,10 @@ img {
 }
 
 .progress_line.Oracle span{
+  width: 70%;
+}
+
+.progress_line.python span{
   width: 70%;
 }
 
