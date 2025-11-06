@@ -99,27 +99,33 @@ let resumeButton = document.getElementById('resume-button')
 
 // Html2pdf options
 let opt = {
-    margin :      0,
+    margin :      [10, 10, 10, 10], // restore slightly larger margins for breathing
     filename :    'CVE-Jair_Obed_Rosario_Ponce.pdf',
     image :       { type: 'jpeg', quality: 0.98},
-    html2camvas : { sacale: 3},
-    jsPDF :       { format: 'a4', orientation: 'portrait'}   
+    html2canvas : { scale: 2.0, useCORS: true }, // increase scale for quality
+    jsPDF :       { unit: 'mm', format: 'a4', orientation: 'portrait' },
+    pagebreak:    { mode: ['css', 'legacy'] }
 }
 
-// Function to call areaCv and Html2Pdf options 
+// Function to call areaCv and Html2Pdf options - returns a Promise
 function generateResume(){
-    html2pdf(areaCv, opt)
+    // Prefer the chaining API to ensure we can wait for completion
+    return html2pdf().set(opt).from(areaCv).save();
 }
 
 // When the button is clicked, it executes the three functions
 resumeButton.addEventListener('click', () => {
-    // 1. The class .scale-cv is added to the body, where it reduces the size of the elements
+    // 1. Add small-scale class to fit content to A4
     scaleCV();
 
-    // 2. The PDF is generated
-    generateResume();
-
-    // 3. The .scale-cv class is removed from the body after 5 seconds to return to normal size.
-    setTimeout(removescaleCV, 1);
+    // 2. Generate the PDF and when finished, remove the scale class
+    generateResume().then(() => {
+        // remove scale after generation completes
+        removescaleCV();
+    }).catch((err) => {
+        // On error, also remove scale and log
+        console.error('Error generating PDF:', err);
+        removescaleCV();
+    });
 })
     
